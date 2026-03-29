@@ -1,2 +1,4 @@
 *.nc filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
+DBtrainrides.csv filter=lfs diff=lfs merge=lfs -text
+DBdata_processed.csv filter=lfs diff=lfs merge=lfs -text
