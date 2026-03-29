@@ -206,3 +206,5 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 "src/notebook/data/*.csv" 
+"src/notebook/data/DBdata_processed.csv" 
+"src/notebook/data/DBtrainrides.csv" 
