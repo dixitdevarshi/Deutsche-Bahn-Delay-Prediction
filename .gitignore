@@ -7,6 +7,10 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+
+artifacts/
+src/notebook/data/DBdata_processed.csv
+src/notebook/data/DBtrainrides.csv
 .Python
 build/
 develop-eggs/
