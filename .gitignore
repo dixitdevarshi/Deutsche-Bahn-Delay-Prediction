@@ -8,7 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 
-artifacts/
+artifacts/*.csv
 src/notebook/data/DBdata_processed.csv
 src/notebook/data/DBtrainrides.csv
 .Python
