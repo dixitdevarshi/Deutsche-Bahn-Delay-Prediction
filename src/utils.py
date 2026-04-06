@@ -30,7 +30,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
                     model, para,
                     cv=3,
                     scoring='roc_auc',  # changed from r2_score
-                    n_jobs=-1
+                    n_jobs=1
                 )
                 gs.fit(X_train, y_train)
                 model.set_params(**gs.best_params_)

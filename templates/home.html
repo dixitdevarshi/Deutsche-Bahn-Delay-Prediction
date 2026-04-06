@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DB Train Delay Estimator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; }
+        h1 { color: #c0392b; }
+        .form-label { font-weight: bold; margin-top: 12px; display: block; }
+        .form-control { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { background-color: #c0392b; color: white; padding: 10px 24px; border: none; border-radius: 4px; cursor: pointer; margin-top: 16px; font-size: 15px; }
+        .btn:hover { background-color: #a93226; }
+        .result-box { margin-top: 30px; padding: 20px; border-radius: 8px; border: 1px solid #ccc; background: #f9f9f9; }
+        .high   { color: #c0392b; font-weight: bold; font-size: 20px; }
+        .moderate { color: #e67e22; font-weight: bold; font-size: 20px; }
+        .low    { color: #27ae60; font-weight: bold; font-size: 20px; }
+        .prob-row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 15px; }
+        .prob-label { color: #555; }
+        .prob-value { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🚆 DB Train Delay Risk Estimator</h1>
+    <p style="color:#555;">Enter your planned journey details to get a pre-trip delay risk assessment.</p>
+
+    <form action="{{ url_for('predict_datapoint') }}" method="post">
+
+        <label class="form-label">Departure Station</label>
+        <input class="form-control" type="text" name="station_name"
+               placeholder="e.g. Berlin Ostkreuz" required />
+
+        <label class="form-label">Destination Station</label>
+        <input class="form-control" type="text" name="destination"
+               placeholder="e.g. Hamburg Hbf" required />
+
+        <label class="form-label">Train Category</label>
+        <select class="form-control" name="train_category" required>
+            <option selected disabled value="">Select train type</option>
+            <option value="Long-distance">Long-distance (ICE / EC)</option>
+            <option value="Intercity">Intercity (IC)</option>
+            <option value="Regional-Ex">Regional Express (RE)</option>
+            <option value="Regional">Regional (RB)</option>
+            <option value="S-Bahn">S-Bahn</option>
+        </select>
+
+        <label class="form-label">Day of Week</label>
+        <select class="form-control" name="day_of_week" required>
+            <option selected disabled value="">Select day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+
+        <label class="form-label">Departure Hour (0–23)</label>
+        <input class="form-control" type="number" name="hour"
+               placeholder="e.g. 17" min="0" max="23" required />
+
+        <label class="form-label">Departure Minute (0–59)</label>
+        <input class="form-control" type="number" name="minute"
+               placeholder="e.g. 30" min="0" max="59" value="0" />
+
+        <label class="form-label">
+            <input type="checkbox" name="is_construction" value="1" />
+            &nbsp; Construction work flagged on this route
+            <span style="color:#888; font-size:12px;">(check DB website)</span>
+        </label>
+
+        <br/>
+        <input class="btn" type="submit" value="Estimate Delay Risk" />
+
+    </form>
+
+    {% if prob_6min is defined and prob_6min is not none %}
+    <div class="result-box">
+        <h2>Prediction Result</h2>
+
+        <p class="
+            {% if risk_label == 'HIGH RISK' %}high
+            {% elif risk_label == 'MODERATE RISK' %}moderate
+            {% else %}low{% endif %}">
+            {{ risk_label }}
+        </p>
+
+        <div class="prob-row">
+            <span class="prob-label">Any delay (&gt;0 min)</span>
+            <span class="prob-value">{{ prob_any }}%</span>
+        </div>
+        <div class="prob-row">
+            <span class="prob-label">Miss connection (≥6 min) — DB official threshold</span>
+            <span class="prob-value">{{ prob_6min }}%</span>
+        </div>
+        <div class="prob-row">
+            <span class="prob-label">Plans disrupted (≥15 min)</span>
+            <span class="prob-value">{{ prob_15min }}%</span>
+        </div>
+
+        <hr style="margin: 16px 0;" />
+
+        <div class="prob-row">
+            <span class="prob-label">If delayed — typical delay</span>
+            <span class="prob-value">{{ q_median }} min</span>
+        </div>
+        <div class="prob-row">
+            <span class="prob-label">If delayed — worst case</span>
+            <span class="prob-value">{{ q_90th }}+ min</span>
+        </div>
+    </div>
+    {% endif %}
+
+</body>
+</html>
