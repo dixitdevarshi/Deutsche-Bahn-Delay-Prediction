@@ -86,8 +86,7 @@ jobs:
         run: |
           docker ps -q --filter "name=dbtraindelay" | grep -q . && docker stop dbtraindelay && docker rm -fv dbtraindelay || true
 
-      # Change 1 — container name changed to dbtraindelay
-      # Change 2 — port changed to 8080:8080 (same as his, Flask default)
+      
       - name: Run Docker Image to serve users
         run: |
           docker run -d -p 8080:8080 --ipc="host" \
