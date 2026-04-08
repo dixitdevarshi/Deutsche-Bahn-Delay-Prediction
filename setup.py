@@ -17,9 +17,9 @@ def get_requirements(file_path:str)->List[str]:
     return requirements 
             
 setup(
-name='MLProject',
+name='Deutsche-Bahn-Delay-Prediction',
 version='0.0.1',
-author='Devarshi',
+author='Devarshi Dixit',
 author_email='dixitdevarshi16@gmail.com',
 packages=find_packages(),
 install_requires=get_requirements('requirements.txt'),
