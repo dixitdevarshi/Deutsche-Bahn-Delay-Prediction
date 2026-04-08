@@ -95,7 +95,6 @@ Known Limitations
 4. `num_stops` approximation: Counts stops on the full line, not just the user's specific segment.
 5. Temporal scope: Model reflects July 2024 patterns. Seasonal variation not captured.
 
-
 ---
 
 ## Author
