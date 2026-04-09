@@ -22,6 +22,7 @@ A pre-trip delay risk estimator for Deutsche Bahn trains. Given a planned journe
 - 2,054,632 departure records across 16 German states and 1,994 stations
 - Date range: July 8–15, 2024
 - Overall significant delay rate: 5.4% (DB threshold: >=6 minutes)
+- Dataset: "https://www.kaggle.com/datasets/nokkyu/deutsche-bahn-db-delays"
 
 ---
 
